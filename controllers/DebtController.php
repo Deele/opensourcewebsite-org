@@ -26,7 +26,7 @@ class DebtController extends Controller
     {
         return [
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'rules' => [
                     [
                         'allow' => true,
@@ -35,7 +35,7 @@ class DebtController extends Controller
                 ],
             ],
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'delete' => ['POST'],
                 ],
@@ -48,7 +48,7 @@ class DebtController extends Controller
      *
      * @return string
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
         $userId = Yii::$app->user->id;
         $debtData = Debt
@@ -95,7 +95,7 @@ class DebtController extends Controller
      *
      * @return string
      */
-    public function actionView($direction, $currencyId)
+    public function actionView($direction, $currencyId): string
     {
         $userId = Yii::$app->user->id;
         $query = Debt
@@ -169,7 +169,7 @@ class DebtController extends Controller
      * @return Debt the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): Debt
     {
         if (($model = Debt::findOne($id)) !== null) {
             return $model;
@@ -188,7 +188,7 @@ class DebtController extends Controller
      * @return Response
      * @throws NotFoundHttpException
      */
-    public function actionConfirm($id, $direction, $currencyId)
+    public function actionConfirm($id, $direction, $currencyId): Response
     {
         $model = $this->findModel($id);
         $model->status = Debt::STATUS_CONFIRM;
@@ -211,7 +211,7 @@ class DebtController extends Controller
      * @throws \Throwable
      * @throws \yii\db\StaleObjectException
      */
-    public function actionCancel($id, $direction, $currencyId)
+    public function actionCancel($id, $direction, $currencyId): Response
     {
         $model = $this->findModel($id);
         if ($model->canCancelDebt()) {
