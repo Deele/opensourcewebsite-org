@@ -136,12 +136,18 @@ class DebtController extends Controller
             'query' => $query,
         ]);
 
-        $this->view->title = static::currencyCodeById($currencyId);
+        $this->view->title = Yii::t(
+            'app',
+            'Debt in {currencyCode}',
+            [
+                'currencyCode' => static::currencyCodeById($currencyId)
+            ]
+        );
         $this->view->params['breadcrumbs'][] = [
             'label' => Yii::t('app', 'Debts'),
             'url' => ['index']
         ];
-        $this->view->params['breadcrumbs'][] = '#' . $currencyId;
+        $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render(
             'view',
