@@ -91,6 +91,28 @@ class DebtController extends Controller
     }
 
     /**
+     * Returns currency code
+     *
+     * @param integer $id
+     *
+     * @return string
+     */
+    public static function currencyCodeById(int $id): string
+    {
+        $code = Currency
+            ::find()
+            ->where(['id' => $id])
+            ->asArray()
+            ->select(['code'])
+            ->scalar();
+        if (empty($code)) {
+            return (string) $id;
+        }
+
+        return $code;
+    }
+
+    /**
      * Displays a single Debt model.
      *
      * @param integer $direction
@@ -114,8 +136,7 @@ class DebtController extends Controller
             'query' => $query,
         ]);
 
-        $currency = Currency::findOne($currencyId);
-        $this->view->title = Yii::t('app', $currency->code);
+        $this->view->title = static::currencyCodeById($currencyId);
         $this->view->params['breadcrumbs'][] = [
             'label' => Yii::t('app', 'Debts'),
             'url' => ['index']
