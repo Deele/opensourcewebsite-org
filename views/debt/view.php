@@ -21,7 +21,9 @@ use yii\grid\ActionColumn;
                     <?= Html::a(
                         Yii::t('app', 'My Deposits'),
                         [
-                            'debt/view', 'direction' => Debt::DIRECTION_DEPOSIT, 'currencyId' => $currencyId,
+                            'debt/view',
+                            'direction' => Debt::DIRECTION_DEPOSIT,
+                            'currencyId' => $currencyId,
                         ],
                         [
                             'class' => 'nav-link show ' . ($direction === Debt::DIRECTION_DEPOSIT ? 'active' : ''),
@@ -32,7 +34,9 @@ use yii\grid\ActionColumn;
                     <?= Html::a(
                         Yii::t('app', 'My Credits'),
                         [
-                            'debt/view', 'direction' => Debt::DIRECTION_CREDIT, 'currencyId' => $currencyId,
+                            'debt/view',
+                            'direction' => Debt::DIRECTION_CREDIT,
+                            'currencyId' => $currencyId,
                         ],
                         [
                             'class' => 'nav-link show ' . ($direction === Debt::DIRECTION_CREDIT ? 'active' : ''),
@@ -86,7 +90,9 @@ use yii\grid\ActionColumn;
                                 return Html::a(
                                     'Confirm',
                                     [
-                                        'debt/confirm', 'id' => $data->id, 'direction' => $direction,
+                                        'debt/confirm',
+                                        'id' => $data->id,
+                                        'direction' => $direction,
                                         'currencyId' => $currencyId,
                                     ],
                                     [
@@ -98,7 +104,9 @@ use yii\grid\ActionColumn;
                                 return Html::a(
                                     'Cancel',
                                     [
-                                        'debt/cancel', 'id' => $data->id, 'direction' => $direction,
+                                        'debt/cancel',
+                                        'id' => $data->id,
+                                        'direction' => $direction,
                                         'currencyId' => $currencyId,
                                     ],
                                     [
@@ -108,10 +116,10 @@ use yii\grid\ActionColumn;
                             },
                         ],
                         'visibleButtons' => [
-                            'confirm' => function ($data) use ($direction) {
+                            'confirm' => function (Debt $data) use ($direction) {
                                 return $data->canConfirmDebt($direction);
                             },
-                            'cancel' => function ($data) {
+                            'cancel' => function (Debt $data) {
                                 return $data->canCancelDebt();
                             },
                         ],

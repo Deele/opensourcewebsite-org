@@ -1,5 +1,6 @@
 <?php
 
+use app\models\Debt;
 use app\widgets\buttons\CancelButton;
 use app\widgets\buttons\SaveButton;
 use kartik\select2\Select2;
