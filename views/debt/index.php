@@ -12,9 +12,6 @@ use app\components\helpers\DebtHelper;
  * @var $dataProvider yii\data\ActiveDataProvider
  */
 
-$this->title = Yii::t('app', 'Debts');
-$this->params['breadcrumbs'][] = $this->title;
-
 ?>
 <div class="callout callout-danger">
     <h5><?= Yii::t('app', 'Attention') ?>!</h5>

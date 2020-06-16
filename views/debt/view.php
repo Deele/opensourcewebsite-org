@@ -3,7 +3,6 @@
 use app\models\Debt;
 use yii\helpers\Html;
 use yii\grid\GridView;
-use app\models\Currency;
 use yii\grid\ActionColumn;
 
 /**
@@ -12,11 +11,6 @@ use yii\grid\ActionColumn;
  * @var $currencyId integer
  * @var $dataProvider yii\data\ActiveDataProvider
  */
-
-$currency = Currency::findOne($currencyId);
-$this->title = Yii::t('app', $currency->code);
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Debts'), 'url' => ['index']];
-$this->params['breadcrumbs'][] = '#' . $currencyId;
 
 ?>
 <div class="debt-view">

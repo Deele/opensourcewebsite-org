@@ -79,6 +79,9 @@ class DebtController extends Controller
                 ->groupBy(['currency_id']),
         ]);
 
+        $this->view->title = Yii::t('app', 'Debts');
+        $this->view->params['breadcrumbs'][] = $this->view->title;
+
         return $this->render(
             'index',
             [
@@ -110,6 +113,14 @@ class DebtController extends Controller
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+
+        $currency = Currency::findOne($currencyId);
+        $this->view->title = Yii::t('app', $currency->code);
+        $this->view->params['breadcrumbs'][] = [
+            'label' => Yii::t('app', 'Debts'),
+            'url' => ['index']
+        ];
+        $this->view->params['breadcrumbs'][] = '#' . $currencyId;
 
         return $this->render(
             'view',
@@ -149,6 +160,13 @@ class DebtController extends Controller
                 ]);
             }
         }
+
+        $this->view->title = Yii::t('app', 'Create Debt');
+        $this->view->params['breadcrumbs'][] = [
+            'label' => Yii::t('app', 'Debts'),
+            'url' => ['index']
+        ];
+        $this->view->params['breadcrumbs'][] = $this->view->title;
 
         return $this->render(
             'create',
