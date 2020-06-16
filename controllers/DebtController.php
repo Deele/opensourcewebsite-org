@@ -11,6 +11,7 @@ use app\models\Currency;
 use yii\filters\VerbFilter;
 use yii\data\ActiveDataProvider;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 /**
  * DebtController implements the CRUD actions for Debt model.
@@ -18,7 +19,7 @@ use yii\web\NotFoundHttpException;
 class DebtController extends Controller
 {
 
-	/**
+    /**
      * {@inheritdoc}
      */
     public function behaviors()
@@ -44,12 +45,14 @@ class DebtController extends Controller
 
     /**
      * Lists all Debt models.
-     * @return mixed
+     *
+     * @return string
      */
     public function actionIndex()
     {
         $userId = Yii::$app->user->id;
-        $debtData = Debt::find()
+        $debtData = Debt
+            ::find()
             ->select([
                 'currency_id',
                 'depositPendingAmount' => 'IF((to_user_id = ' . $userId . ') && (status = ' . Debt::STATUS_PENDING . '), amount, 0)',
@@ -60,10 +63,11 @@ class DebtController extends Controller
             ->andWhere([
                 'OR',
                 ['from_user_id' => $userId],
-                ['to_user_id' => $userId]
+                ['to_user_id' => $userId],
             ]);
         $dataProvider = new ActiveDataProvider([
-            'query' => Debt::find()
+            'query' => Debt
+                ::find()
                 ->from(['debtData' => $debtData])
                 ->select([
                     'currency_id',
@@ -75,23 +79,29 @@ class DebtController extends Controller
                 ->groupBy(['currency_id']),
         ]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'index',
+            [
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
      * Displays a single Debt model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     *
+     * @param integer $direction
+     * @param integer $currencyId
+     *
+     * @return string
      */
     public function actionView($direction, $currencyId)
     {
         $userId = Yii::$app->user->id;
-        $query = Debt::find()
+        $query = Debt
+            ::find()
             ->andWhere(['currency_id' => $currencyId]);
-        if ((int) $direction === Debt::DIRECTION_DEPOSIT) {
+        if ((int)$direction === Debt::DIRECTION_DEPOSIT) {
             $query->andWhere(['to_user_id' => $userId]);
         } else {
             $query->andWhere(['from_user_id' => $userId]);
@@ -101,17 +111,21 @@ class DebtController extends Controller
             'query' => $query,
         ]);
 
-        return $this->render('view', [
-            'direction' => $direction,
-            'currencyId' => $currencyId,
-            'dataProvider' => $dataProvider,
-        ]);
+        return $this->render(
+            'view',
+            [
+                'direction' => $direction,
+                'currencyId' => $currencyId,
+                'dataProvider' => $dataProvider,
+            ]
+        );
     }
 
     /**
      * Creates a new Debt model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     *
+     * @return string|Response
      */
     public function actionCreate()
     {
@@ -125,23 +139,33 @@ class DebtController extends Controller
             ->all();
 
         if ($model->load(Yii::$app->request->post())) {
-            $model->status = ($model->direction == Debt::DIRECTION_DEPOSIT ? Debt::STATUS_PENDING : Debt::STATUS_CONFIRM);
+            $model->status = ($model->direction == Debt::DIRECTION_DEPOSIT ? Debt::STATUS_PENDING
+                : Debt::STATUS_CONFIRM);
             if ($model->save()) {
-                return $this->redirect(['view', 'direction' => $model->direction, 'currencyId' => $model->currency_id]);
+                return $this->redirect([
+                    'view',
+                    'direction' => $model->direction,
+                    'currencyId' => $model->currency_id,
+                ]);
             }
         }
 
-        return $this->render('create', [
-            'model' => $model,
-            'user' => $user,
-            'currency' => Currency::find()->all(),
-        ]);
+        return $this->render(
+            'create',
+            [
+                'model' => $model,
+                'user' => $user,
+                'currency' => Currency::find()->all(),
+            ]
+        );
     }
 
     /**
      * Finds the Debt model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
+     *
      * @return Debt the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
@@ -151,18 +175,42 @@ class DebtController extends Controller
             return $model;
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        throw new NotFoundHttpException(
+            'The requested page does not exist.'
+        );
     }
 
+    /**
+     * @param integer $id
+     * @param integer $direction
+     * @param integer $currencyId
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     */
     public function actionConfirm($id, $direction, $currencyId)
     {
         $model = $this->findModel($id);
         $model->status = Debt::STATUS_CONFIRM;
         $model->save();
 
-        return $this->redirect(['view', 'direction' => $direction, 'currencyId' => $currencyId]);
+        return $this->redirect([
+            'view',
+            'direction' => $direction,
+            'currencyId' => $currencyId,
+        ]);
     }
 
+    /**
+     * @param integer $id
+     * @param integer $direction
+     * @param integer $currencyId
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionCancel($id, $direction, $currencyId)
     {
         $model = $this->findModel($id);
@@ -170,6 +218,10 @@ class DebtController extends Controller
             $model->delete();
         }
 
-        return $this->redirect(['view', 'direction' => $direction, 'currencyId' => $currencyId]);
+        return $this->redirect([
+            'view',
+            'direction' => $direction,
+            'currencyId' => $currencyId,
+        ]);
     }
 }

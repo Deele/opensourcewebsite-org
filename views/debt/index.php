@@ -6,8 +6,11 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use app\components\helpers\DebtHelper;
 
-/* @var $this yii\web\View */
-/* @var $dataProvider yii\data\ActiveDataProvider */
+/**
+ * @var $this yii\web\View
+ * @var $model app\models\Debt
+ * @var $dataProvider yii\data\ActiveDataProvider
+ */
 
 $this->title = Yii::t('app', 'Debts');
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,10 +19,12 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="callout callout-danger">
     <h5><?= Yii::t('app', 'Attention') ?>!</h5>
     <p>
-        <?= Yii::t('app', 'This feature works in test mode') ?>. <?= Yii::t('app', 'Please help to test all functions of this') ?>. <?= Yii::t('app', 'All data of debts will be deleted from 2020-07-01 or earlier') ?>. <?= Yii::t('app', 'After that, this feature will work in an operating mode') ?>.
+        <?= Yii::t('app', 'This feature works in test mode') ?>
+        . <?= Yii::t('app', 'Please help to test all functions of this') ?>
+        . <?= Yii::t('app', 'All data of debts will be deleted from 2020-07-01 or earlier') ?>
+        . <?= Yii::t('app', 'After that, this feature will work in an operating mode') ?>.
     </p>
 </div>
-
 <div class="debt-index">
     <div class="row">
         <div class="col-12">
@@ -31,8 +36,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'url' => ['debt/create'],
                                 'options' => [
                                     'title' => 'New Debt',
-                                ]
-                            ]); ?>
+                                ],
+                            ]) ?>
                         </li>
                     </ul>
                 </div>
@@ -52,14 +57,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             [
                                 'label' => 'My Deposits',
                                 'value' => function (Debt $data) {
-                                    return Html::a(DebtHelper::getDepositAmount($data->depositPending, $data->depositConfirmed), ['/debt/view', 'direction' => Debt::DIRECTION_DEPOSIT, 'currencyId' => $data->currency_id]);
+                                    return Html::a(DebtHelper::getDepositAmount($data->depositPending, $data->depositConfirmed), [
+                                        '/debt/view', 'direction' => Debt::DIRECTION_DEPOSIT,
+                                        'currencyId' => $data->currency_id,
+                                    ]);
                                 },
                                 'format' => 'html',
                             ],
                             [
                                 'label' => 'My Credits',
                                 'value' => function (Debt $data) {
-                                    return Html::a(DebtHelper::getCreditAmount($data->creditPending, $data->creditConfirmed), ['/debt/view', 'direction' => Debt::DIRECTION_CREDIT, 'currencyId' => $data->currency_id]);
+                                    return Html::a(DebtHelper::getCreditAmount($data->creditPending, $data->creditConfirmed), [
+                                        '/debt/view', 'direction' => Debt::DIRECTION_CREDIT,
+                                        'currencyId' => $data->currency_id,
+                                    ]);
                                 },
                                 'format' => 'html',
                             ],
@@ -81,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'page-link',
                             ],
                         ],
-                    ]); ?>
+                    ]) ?>
                 </div>
             </div>
         </div>

@@ -6,7 +6,12 @@ use yii\grid\GridView;
 use app\models\Currency;
 use yii\grid\ActionColumn;
 
-/* @var $this yii\web\View */
+/**
+ * @var $this yii\web\View
+ * @var $direction integer
+ * @var $currencyId integer
+ * @var $dataProvider yii\data\ActiveDataProvider
+ */
 
 $currency = Currency::findOne($currencyId);
 $this->title = Yii::t('app', $currency->code);
@@ -19,14 +24,26 @@ $this->params['breadcrumbs'][] = '#' . $currencyId;
         <div class="card-header d-flex p-0">
             <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item">
-                    <?= Html::a(Yii::t('app', 'My Deposits'), ['debt/view', 'direction' => Debt::DIRECTION_DEPOSIT, 'currencyId' => $currencyId], [
-                        'class' => 'nav-link show ' . ((int) $direction === Debt::DIRECTION_DEPOSIT ? 'active' : ''),
-                    ]); ?>
+                    <?= Html::a(
+                        Yii::t('app', 'My Deposits'),
+                        [
+                            'debt/view', 'direction' => Debt::DIRECTION_DEPOSIT, 'currencyId' => $currencyId,
+                        ],
+                        [
+                            'class' => 'nav-link show ' . ($direction === Debt::DIRECTION_DEPOSIT ? 'active' : ''),
+                        ]
+                    ) ?>
                 </li>
                 <li class="nav-item">
-                    <?= Html::a(Yii::t('app', 'My Credits'), ['debt/view', 'direction' => Debt::DIRECTION_CREDIT, 'currencyId' => $currencyId], [
-                        'class' => 'nav-link show ' . ((int) $direction === Debt::DIRECTION_CREDIT ? 'active' : ''),
-                    ]); ?>
+                    <?= Html::a(
+                        Yii::t('app', 'My Credits'),
+                        [
+                            'debt/view', 'direction' => Debt::DIRECTION_CREDIT, 'currencyId' => $currencyId,
+                        ],
+                        [
+                            'class' => 'nav-link show ' . ($direction === Debt::DIRECTION_CREDIT ? 'active' : ''),
+                        ]
+                    ) ?>
                 </li>
             </ul>
         </div>
@@ -38,21 +55,21 @@ $this->params['breadcrumbs'][] = '#' . $currencyId;
                 'columns' => [
                     [
                         'label' => 'User',
-                        'value' => function ($data) use ($direction) {
+                        'value' => function (Debt $data) use ($direction) {
                             return $data->getUserDisplayName($direction);
                         },
                         'format' => 'html',
                     ],
                     [
                         'label' => 'Amount',
-                        'value' => function ($data) {
+                        'value' => function (Debt $data) {
                             return $data->amount ?? null;
                         },
                         'format' => 'html',
                     ],
                     [
                         'label' => 'Created At',
-                        'value' => function ($data) {
+                        'value' => function (Debt $data) {
                             return $data->created_at ?? null;
                         },
                         'format' => 'relativeTime',
@@ -62,6 +79,7 @@ $this->params['breadcrumbs'][] = '#' . $currencyId;
                             if ($data->isStatusPending()) {
                                 return '<span class="badge badge-warning">Pending</span>';
                             }
+
                             return '';
                         },
                         'format' => 'html',
@@ -70,11 +88,29 @@ $this->params['breadcrumbs'][] = '#' . $currencyId;
                         'class' => ActionColumn::class,
                         'template' => '{confirm} {cancel}',
                         'buttons' => [
-                            'confirm' => function ($url, $data) use ($direction, $currencyId) {
-                                return Html::a('Confirm', ['debt/confirm', 'id' => $data->id, 'direction' => $direction, 'currencyId' => $currencyId], ['class' => 'btn btn-outline-success']);
+                            'confirm' => function ($url, Debt $data) use ($direction, $currencyId) {
+                                return Html::a(
+                                    'Confirm',
+                                    [
+                                        'debt/confirm', 'id' => $data->id, 'direction' => $direction,
+                                        'currencyId' => $currencyId,
+                                    ],
+                                    [
+                                        'class' => 'btn btn-outline-success',
+                                    ]
+                                );
                             },
-                            'cancel' => function ($url, $data) use ($direction, $currencyId) {
-                                return Html::a('Cancel', ['debt/cancel', 'id' => $data->id, 'direction' => $direction, 'currencyId' => $currencyId], ['class' => 'btn btn-outline-danger']);
+                            'cancel' => function ($url, Debt $data) use ($direction, $currencyId) {
+                                return Html::a(
+                                    'Cancel',
+                                    [
+                                        'debt/cancel', 'id' => $data->id, 'direction' => $direction,
+                                        'currencyId' => $currencyId,
+                                    ],
+                                    [
+                                        'class' => 'btn btn-outline-danger',
+                                    ]
+                                );
                             },
                         ],
                         'visibleButtons' => [
@@ -104,7 +140,7 @@ $this->params['breadcrumbs'][] = '#' . $currencyId;
                         'class' => 'page-link',
                     ],
                 ],
-            ]); ?>
+            ]) ?>
         </div>
     </div>
 </div>

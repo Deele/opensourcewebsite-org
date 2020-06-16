@@ -1,21 +1,19 @@
 <?php
 
-use app\models\Debt;
 use app\widgets\buttons\CancelButton;
 use app\widgets\buttons\SaveButton;
-use yii\helpers\Html;
 use kartik\select2\Select2;
-use kartik\date\DatePicker;
 use yii\widgets\ActiveForm;
 use yii\helpers\ArrayHelper;
-use janisto\timepicker\TimePicker;
 
-/* @var $this yii\web\View */
-/* @var $model app\models\Debt */
-/* @var $form yii\widgets\ActiveForm */
-
+/**
+ * @var $this yii\web\View
+ * @var $model app\models\Debt
+ * @var $user app\models\User[]
+ * @var $currency app\models\Currency[]
+ * @var $form yii\widgets\ActiveForm
+ */
 ?>
-
 <div class="debt-form">
     <?php $form = ActiveForm::begin(); ?>
     <div class="row">
@@ -29,7 +27,7 @@ use janisto\timepicker\TimePicker;
                                 'options' => [
                                     'prompt' => '',
                                 ],
-                            ]); ?>
+                            ]) ?>
                         </div>
                     </div>
                     <div class="row">
@@ -39,16 +37,16 @@ use janisto\timepicker\TimePicker;
                                 'options' => [
                                     'prompt' => '',
                                 ],
-                            ]); ?>
+                            ]) ?>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <?= $form->field($model, 'amount', [
-									'inputOptions' => [
-										'autocomplete' => 'off'
-									]
-								])->textInput(); ?>
+                                'inputOptions' => [
+                                    'autocomplete' => 'off',
+                                ],
+                            ])->textInput() ?>
                         </div>
                     </div>
                     <div class="row">
@@ -56,15 +54,15 @@ use janisto\timepicker\TimePicker;
                             <?= $form->field($model, 'direction')->dropDownList([
                                 Debt::DIRECTION_DEPOSIT => 'My Deposit',
                                 Debt::DIRECTION_CREDIT => 'My Credit',
-                            ]); ?>
+                            ]) ?>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <?= SaveButton::widget(); ?>
+                    <?= SaveButton::widget() ?>
                     <?= CancelButton::widget([
-                        'url' => ['/debt']
-                    ]); ?>
+                        'url' => ['/debt'],
+                    ]) ?>
                 </div>
             </div>
         </div>
