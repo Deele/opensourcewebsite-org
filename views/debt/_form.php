@@ -26,7 +26,7 @@ use yii\helpers\ArrayHelper;
                             <?= $form->field($model, 'user')->widget(Select2::class, [
                                 'data' => ArrayHelper::map($user, 'id', 'displayName'),
                                 'options' => [
-                                    'prompt' => '',
+                                    'prompt' => Yii::t('debt', 'Please select user from your contacts'),
                                 ],
                             ]) ?>
                         </div>
@@ -53,8 +53,8 @@ use yii\helpers\ArrayHelper;
                     <div class="row">
                         <div class="col">
                             <?= $form->field($model, 'direction')->dropDownList([
-                                Debt::DIRECTION_DEPOSIT => 'My Deposit',
-                                Debt::DIRECTION_CREDIT => 'My Credit',
+                                Debt::DIRECTION_DEPOSIT => Yii::t('debt', 'My Deposit'),
+                                Debt::DIRECTION_CREDIT => Yii::t('debt', 'My Credit'),
                             ]) ?>
                         </div>
                     </div>

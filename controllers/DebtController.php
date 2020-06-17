@@ -144,7 +144,7 @@ class DebtController extends Controller
             ]
         );
         $this->view->params['breadcrumbs'][] = [
-            'label' => Yii::t('app', 'Debts'),
+            'label' => Yii::t('debt', 'Debts'),
             'url' => ['index']
         ];
         $this->view->params['breadcrumbs'][] = $this->view->title;
@@ -188,9 +188,9 @@ class DebtController extends Controller
             }
         }
 
-        $this->view->title = Yii::t('app', 'Create Debt');
+        $this->view->title = Yii::t('debt', 'New Debt');
         $this->view->params['breadcrumbs'][] = [
-            'label' => Yii::t('app', 'Debts'),
+            'label' => Yii::t('debt', 'Debts'),
             'url' => ['index']
         ];
         $this->view->params['breadcrumbs'][] = $this->view->title;

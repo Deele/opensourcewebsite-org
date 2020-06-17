@@ -32,7 +32,7 @@ use app\components\helpers\DebtHelper;
                             <?= AddButton::widget([
                                 'url' => ['debt/create'],
                                 'options' => [
-                                    'title' => 'New Debt',
+                                    'title' => Yii::t('debt', 'New Debt'),
                                 ],
                             ]) ?>
                         </li>
@@ -45,14 +45,14 @@ use app\components\helpers\DebtHelper;
                         'tableOptions' => ['class' => 'table table-hover'],
                         'columns' => [
                             [
-                                'label' => 'Currency',
+                                'label' => Yii::t('debt', 'Currency'),
                                 'value' => function (Debt $data) {
                                     return $data->currency->code ?? null;
                                 },
                                 'format' => 'html',
                             ],
                             [
-                                'label' => 'My Deposits',
+                                'label' => Yii::t('debt', 'My Deposits'),
                                 'value' => function (Debt $data) {
                                     return Html::a(DebtHelper::getDepositAmount($data->depositPending, $data->depositConfirmed), [
                                         '/debt/view', 'direction' => Debt::DIRECTION_DEPOSIT,
@@ -62,7 +62,7 @@ use app\components\helpers\DebtHelper;
                                 'format' => 'html',
                             ],
                             [
-                                'label' => 'My Credits',
+                                'label' => Yii::t('debt', 'My Credits'),
                                 'value' => function (Debt $data) {
                                     return Html::a(DebtHelper::getCreditAmount($data->creditPending, $data->creditConfirmed), [
                                         '/debt/view', 'direction' => Debt::DIRECTION_CREDIT,

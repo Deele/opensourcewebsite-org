@@ -19,7 +19,7 @@ use yii\grid\ActionColumn;
             <ul class="nav nav-pills ml-auto p-2">
                 <li class="nav-item">
                     <?= Html::a(
-                        Yii::t('app', 'My Deposits'),
+                        Yii::t('debt', 'My Deposits'),
                         [
                             'debt/view',
                             'direction' => Debt::DIRECTION_DEPOSIT,
@@ -32,7 +32,7 @@ use yii\grid\ActionColumn;
                 </li>
                 <li class="nav-item">
                     <?= Html::a(
-                        Yii::t('app', 'My Credits'),
+                        Yii::t('debt', 'My Credits'),
                         [
                             'debt/view',
                             'direction' => Debt::DIRECTION_CREDIT,
@@ -52,21 +52,21 @@ use yii\grid\ActionColumn;
                 'tableOptions' => ['class' => 'table table-hover'],
                 'columns' => [
                     [
-                        'label' => 'User',
+                        'label' => Yii::t('debt', 'User'),
                         'value' => function (Debt $data) use ($direction) {
                             return $data->getUserDisplayName($direction);
                         },
                         'format' => 'html',
                     ],
                     [
-                        'label' => 'Amount',
+                        'label' => Yii::t('debt', 'Amount'),
                         'value' => function (Debt $data) {
                             return $data->amount ?? null;
                         },
                         'format' => 'html',
                     ],
                     [
-                        'label' => 'Created At',
+                        'label' => Yii::t('debt', 'Created At'),
                         'value' => function (Debt $data) {
                             return $data->created_at ?? null;
                         },
@@ -88,7 +88,7 @@ use yii\grid\ActionColumn;
                         'buttons' => [
                             'confirm' => function ($url, Debt $data) use ($direction, $currencyId) {
                                 return Html::a(
-                                    'Confirm',
+                                    Yii::t('app', 'Confirm'),
                                     [
                                         'debt/confirm',
                                         'id' => $data->id,
@@ -102,7 +102,7 @@ use yii\grid\ActionColumn;
                             },
                             'cancel' => function ($url, Debt $data) use ($direction, $currencyId) {
                                 return Html::a(
-                                    'Cancel',
+                                    Yii::t('app', 'Cancel'),
                                     [
                                         'debt/cancel',
                                         'id' => $data->id,
