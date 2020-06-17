@@ -89,16 +89,16 @@ class Debt extends ActiveRecord implements ByDebtInterface
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'from_user_id' => 'From User',
-            'to_user_id' => 'User',
-            'currency_id' => 'Currency',
-            'amount' => 'Amount',
-            'status' => 'Status',
-            'created_at' => 'Created At',
-            'created_by' => 'Created By',
-            'updated_at' => 'Updated At',
-            'updated_by' => 'Updated By',
+            'id' => Yii::t('debt', 'ID'),
+            'from_user_id' => Yii::t('debt', 'From User'),
+            'to_user_id' => Yii::t('debt', 'User'),
+            'currency_id' => Yii::t('debt', 'Currency'),
+            'amount' => Yii::t('debt', 'Amount'),
+            'status' => Yii::t('debt', 'Status'),
+            'created_at' => Yii::t('app', 'Created At'),
+            'created_by' => Yii::t('app', 'Created By'),
+            'updated_at' => Yii::t('app', 'Updated At'),
+            'updated_by' => Yii::t('app', 'Updated By'),
         ];
     }
 
